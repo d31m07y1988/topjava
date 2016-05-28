@@ -29,7 +29,6 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed>  getFilteredMealsWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        // TODO return filtered list with correctly exceeded field
         List<UserMealWithExceed> dateMealsExceeded = new ArrayList<>();
         Map<LocalDate,Integer> caloriesByDate = new HashMap<>();
         for (UserMeal userMeal: mealList) {
@@ -38,8 +37,11 @@ public class UserMealsUtil {
             else caloriesByDate.put(userMeal.getDateTime().toLocalDate(),userMeal.getCalories());
         }
         for (UserMeal userMeal: mealList) {
-            if(caloriesByDate.get(userMeal.getDateTime().toLocalDate())>caloriesPerDay && TimeUtil.isBetween(userMeal.getDateTime().toLocalTime(),startTime,endTime))
-                dateMealsExceeded.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),true));
+            if(TimeUtil.isBetween(userMeal.getDateTime().toLocalTime(),startTime,endTime)) {
+                if (caloriesByDate.get(userMeal.getDateTime().toLocalDate())>caloriesPerDay)
+                    dateMealsExceeded.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),true));
+                else dateMealsExceeded.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),false));
+            }
         }
         return dateMealsExceeded;
     }
