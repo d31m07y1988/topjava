@@ -9,16 +9,14 @@
 <body>
 <h2><a href="index.html">Home</a></h2>
 <h2>Meal list</h2>
-<c:if test="${not empty meals}">
+<c:if test="${!empty meals}">
     <ul>
     <c:forEach items="${meals}" var="meal">
-        <li style="color:
-            <c:if test="${meal.exceed}">red</c:if>
-            <c:if test="${not meal.exceed}">darkgreen</c:if>
-        ">
+        <li style="color:${meal.exceed ? 'red' : 'blue'}">
 
-            <c:set var="cleanedDateTime" value="${fn:replace(meal.dateTime, 'T', ' ')}" />
-            <fmt:parseDate value="${ cleanedDateTime }" pattern="yyyy-MM-dd HH:mm" var="parsedDateTime" type="both" />
+            <%--<c:set var="cleanedDateTime" value="${fn:replace(meal.dateTime, 'T', ' ')}" />
+            <fmt:parseDate value="${ cleanedDateTime }" pattern="yyyy-MM-dd HH:mm" var="parsedDateTime" type="both" />--%>
+            <fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
             <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${ parsedDateTime }" />
 
             - <c:out value="${meal.description}"/>
