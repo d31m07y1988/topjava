@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository;
 
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 
 import java.util.Collection;
@@ -9,11 +10,13 @@ import java.util.Collection;
  * 06.03.2015.
  */
 public interface UserMealRepository {
-    UserMeal save(UserMeal userMeal);
+    //null if someone else's meal
+    UserMeal save(Integer userId, UserMeal userMeal);
 
-    void delete(int id);
+    void delete(Integer userId, int id);
 
-    UserMeal get(int id);
+    // null if not found
+    UserMeal get(Integer userId, int id);
 
-    Collection<UserMeal> getAll();
+    Collection<UserMeal> getAll(Integer userId);
 }
