@@ -12,6 +12,11 @@ function makeEditable() {
         save();
         return false;
     });
+    
+    $('#filterForm').submit(function () {
+        filterForm();
+        return false;
+    });
 
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(event, jqXHR, options, jsExc);
@@ -51,6 +56,17 @@ function save() {
             updateTable();
             successNoty('Saved');
         }
+    });
+}
+function filterForm() {
+    var form = $('#filterForm');
+    debugger;
+    $.get(ajaxUrl+"filter", function (data) {
+        datatableApi.fnClearTable();
+        $.each(data, function (key, item) {
+            datatableApi.fnAddData(item);
+        });
+        datatableApi.fnDraw();
     });
 }
 
